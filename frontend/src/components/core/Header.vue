@@ -2,9 +2,9 @@
   <a-layout-header class="tw-p-0 tw-bg-green-600 tw-text-white">
     <a-row justify="space-between" align="center" class="tw-mx-6">
       <a-row align="center" class="tw-items-center">
-        <menu-unfold-outlined v-if="collapsed" class="trigger" @click="toggleCollapse" />
-        <menu-fold-outlined v-else class="trigger" @click="toggleCollapse" />
-        <span class="tw-px-2">CMStock</span>
+        <menu-unfold-outlined v-if="collapsed" class="trigger tw-text-xl" @click="toggleCollapse" />
+        <menu-fold-outlined v-else class="trigger tw-text-xl" @click="toggleCollapse" />
+        <span class="tw-px-2 tw-font-bold tw-text-xl">CMStock</span>
       </a-row>
       <div>
         <a-button type="text" @click="authStore.logout">

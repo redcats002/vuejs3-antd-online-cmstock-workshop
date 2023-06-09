@@ -8,7 +8,7 @@
       <a-row justify="end" class="tw-mb-4" :gutter="[10, 10]">
         <a-col :span="20">
           <a-auto-complete
-            class="tw-w-full"
+            class="tw-w-full tw-drop-shadow-sm hover:tw-drop-shadow-md tw-transition-all"
             v-model="searchValue"
             placeholder="Input search text"
             :options="autocompleteOptions"
@@ -20,7 +20,11 @@
           />
         </a-col>
         <a-col :span="4">
-          <a-button class="tw-w-full" type="primary" @click="$router.push('/stock-create')">
+          <a-button
+            class="tw-w-full tw-drop-shadow-sm hover:tw-drop-shadow-md tw-transition-all"
+            type="primary"
+            @click="$router.push('/stock-create')"
+          >
             <a-row justify="center" class="tw-items-center">
               <PlusCircleFilled class="tw-pr-2 tw-hidden lg:tw-block" /><span class="tw-pr-1"
                 >NEW</span
@@ -31,7 +35,10 @@
         </a-col>
       </a-row>
 
-      <a-card v-if="!isLoading" class="tw-rounded-md">
+      <a-card
+        v-if="!isLoading"
+        class="tw-rounded-md tw-drop-shadow-sm hover:tw-drop-shadow-md tw-transition-all"
+      >
         <a-table :columns="columns" :data-source="stocks" :scroll="{ y: 700, x: 600 }">
           <template #headerCell="{ column }">
             <template v-if="column.key === 'name'">

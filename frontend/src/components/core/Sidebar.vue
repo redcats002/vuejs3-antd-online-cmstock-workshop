@@ -16,15 +16,13 @@
     >
       <template v-for="(item, i) in menuList" :key="i">
         <a-menu-item v-if="!item.isSub" :key="item.to">
-          <template #icon>
-            <MailOutlined />
-          </template>
+          <template #icon> <StockOutlined v-if="i == 0" /> <DatabaseOutlined v-else /> </template>
           {{ item.name }}
         </a-menu-item>
         <template v-else>
           <a-sub-menu :key="`menu${i}`">
             <template #icon>
-              <MailOutlined />
+              <CalendarOutlined />
             </template>
             <template #title>{{ item.name }} </template>
             <a-menu-item v-for="(sub, j) in item.options" :key="sub.to">
