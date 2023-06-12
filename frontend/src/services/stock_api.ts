@@ -1,6 +1,5 @@
 import httpClient from '@/services/httpClient'
 import { server } from '@/services/constants'
-import type { Product } from '@/models/product.model'
 
 
 export const getProducts = () => {

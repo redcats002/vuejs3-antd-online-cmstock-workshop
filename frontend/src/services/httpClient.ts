@@ -5,7 +5,6 @@ import {
   NOT_CONNECT_NETWORK,
   NETWORK_CONNECTION_MESSAGE
 } from '@/services/constants'
-import router from '@/router'
 import join from 'url-join'
 
 const isAbsoluteURLRegex = /^(?:\w+:)\/\//
