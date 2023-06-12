@@ -87,7 +87,7 @@ export default defineComponent({
     })
 
     const onSubmit = async () => {
-      let formData = new FormData()
+      const formData = new FormData()
       const { name, price, stock } = formState
       formData.append('name', name)
       formData.append('stock', stock.toString())
@@ -116,21 +116,21 @@ export default defineComponent({
       previewTitle.value = ''
     }
 
-    let validateText = (rule: Rule, value: string) => {
+    const validateText = (rule: Rule, value: string) => {
       if (formState.name === '') {
         return Promise.reject('Please input the name')
       }
       return Promise.resolve()
     }
 
-    let validatePrice = (rule: Rule, value: string) => {
+    const validatePrice = (rule: Rule, value: string) => {
       if (formState.price < 10) {
         return Promise.reject('price must be a least at 100')
       }
       return Promise.resolve()
     }
 
-    let validateStock = (rule: Rule, value: string) => {
+    const validateStock = (rule: Rule, value: string) => {
       if (formState.stock < 10) {
         return Promise.reject('stock must be a least at 100')
       }

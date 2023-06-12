@@ -65,13 +65,13 @@ const formState = reactive<User>({
 })
 const authStore = useAuthStore()
 
-let validateUsername = async (_rule: Rule, value: string) => {
+const validateUsername = async (_rule: Rule, value: string) => {
   if (value === '') {
     return Promise.reject('Please input the username')
   }
   return Promise.resolve()
 }
-let validatePassword = async (_rule: Rule, value: string) => {
+const validatePassword = async (_rule: Rule, value: string) => {
   if (value === '') {
     return Promise.reject('Please input the password')
   }
