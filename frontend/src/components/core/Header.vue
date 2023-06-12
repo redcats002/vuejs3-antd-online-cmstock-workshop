@@ -22,6 +22,8 @@ import { useAuthStore } from '@/stores/useAuthStore'
 import { MenuUnfoldOutlined, MenuFoldOutlined, LogoutOutlined } from '@ant-design/icons-vue'
 import { defineComponent, ref } from 'vue'
 
+
+
 export default defineComponent({
   components: {
     MenuUnfoldOutlined,
@@ -39,7 +41,6 @@ export default defineComponent({
     const toggleCollapse = () => {
       emit('update:collapsed', !props.collapsed)
     }
-
     return {
       collapsed: ref<boolean>(false),
       toggleCollapse,

@@ -9,3 +9,10 @@ export interface Product {
   createdAt: string
   updatedAt: string
 }
+
+export interface StockCardInterface {
+  title: string
+  amount: number
+  icon: string
+  color: string
+}

@@ -9,14 +9,13 @@
         <a-col :span="20">
           <a-auto-complete
             class="tw-w-full tw-drop-shadow-sm hover:tw-drop-shadow-md tw-transition-all"
-            v-model="searchValue"
             placeholder="Input search text"
-            :options="autocompleteOptions"
-            @search="debouncedSearch"
-            @select="onSelect"
+            :options="stockStore.autocompleteOptions"
+            @search="stockStore.debouncedSearch"
+            @select="stockStore.onSelect"
             :default-active-first-option="false"
             :filter-option="false"
-            :loading="isLoading"
+            :loading="stockStore.isLoading"
           />
         </a-col>
         <a-col :span="4">
@@ -34,12 +33,12 @@
           </a-button>
         </a-col>
       </a-row>
-
+      <a-skeleton active avatar v-if="stockStore.isLoading()"> </a-skeleton>
       <a-card
-        v-if="!isLoading"
+        v-else
         class="tw-rounded-md tw-drop-shadow-sm hover:tw-drop-shadow-md tw-transition-all"
       >
-        <a-table :columns="columns" :data-source="stocks" :scroll="{ y: 700, x: 600 }">
+        <a-table :columns="columns" :data-source="stockStore.stocks" :scroll="{ y: 700, x: 600 }">
           <template #headerCell="{ column }">
             <template v-if="column.key === 'name'">
               <span class="tw-font-medium"> Name </span>
@@ -57,19 +56,19 @@
             <template v-else-if="column.key === 'image'">
               <img
                 @click="routeToEdit(record.id)"
-                :src="getProductImage(record.image)"
+                :src="stockStore.getProductImage(record.image)"
                 lazy-src="https://picsum.photos/id/11/10/6"
                 aspect-ratio="1"
-                class="tw-cursor-pointer tw-transition-all hover:tw-scale-[1.1]"
-                width="100"
-                height="100"
+                class="tw-object-contain tw-cursor-pointer tw-transition-all hover:tw-scale-[1.1]"
+                width="50"
+                height="50"
               />
             </template>
             <template v-else-if="column.key === 'price'">
               <span>{{ filters.currency(record.price) }}</span>
             </template>
             <template v-else-if="column.key === 'stock'">
-              <a-tag :color="getColorTagByStock(record.stock)"
+              <a-tag :color="stockStore.getColorTagByStock(record.stock)"
                 >{{ filters.thousand(record.stock) }} pcs</a-tag
               >
             </template>
@@ -88,23 +87,24 @@
                   <EditFilled class="tw-pb-2" />
                 </a-button>
 
-                <a-popconfirm title="Are you sure？" @confirm="onConfirmDelete(record.id)">
+                <a-popconfirm
+                  title="Are you sure？"
+                  @confirm="stockStore.onConfirmDelete(record.id)"
+                >
                   <template #icon><QuestionCircleOutlined /></template>
                   <a-button type="danger"> <DeleteFilled class="tw-pb-2" /></a-button>
                 </a-popconfirm>
               </a-row>
             </template>
-          </template> </a-table
-      ></a-card>
-      <a-skeleton v-else active avatar> </a-skeleton>
+          </template>
+        </a-table>
+      </a-card>
     </a-col>
   </a-row>
 </template>
 
 <script lang="ts">
 import StockCard from '@/components/cards/StockCard.vue'
-import type { Product } from '@/models/product.model'
-import api from '@/services/api'
 import {
   PlusCircleFilled,
   EditFilled,
@@ -115,15 +115,7 @@ import {
 import { defineComponent, onMounted, reactive, ref, watch } from 'vue'
 import filters from '@/services/filters'
 import { useRouter } from 'vue-router'
-// @ts-ignore
-import { debounce } from 'lodash'
-
-interface StockCardInterface {
-  title: string
-  amount: number
-  icon: string
-  color: string
-}
+import { useStockStore } from '@/stores/useStockStore'
 
 export default defineComponent({
   components: {
@@ -136,7 +128,7 @@ export default defineComponent({
   },
   setup() {
     const router = useRouter()
-
+    const stockStore = useStockStore()
     const stockCardList = reactive<StockCardInterface[]>([
       { title: 'Total', amount: 1800, icon: 'ShoppingCartOutlined', color: '#039C52' },
       { title: 'Sold-out', amount: 12, icon: 'ExperimentOutlined', color: '#F18F15' },
@@ -145,14 +137,15 @@ export default defineComponent({
     ])
     const columns = [
       {
-        name: 'Name',
-        dataIndex: 'name',
-        key: 'name'
-      },
-      {
         title: 'Image',
         dataIndex: 'image',
         key: 'image'
+      },
+      {
+        name: 'Name',
+        dataIndex: 'name',
+        key: 'name',
+        width: '30%'
       },
       {
         title: 'Price',
@@ -179,99 +172,21 @@ export default defineComponent({
         key: 'action'
       }
     ]
-    let isLoading = ref(true)
-    let stocks = ref([])
-    let searchValue = ref('')
-    const autocompleteOptions = ref([])
-
-    const setLoading = (value: boolean) => {
-      isLoading.value = value
-    }
 
     const routeToEdit = (id: string) => {
       router.push(`/stock-edit/${id}`)
     }
 
-    const getColorTagByStock = (stock: number) => {
-      if (stock >= 20) {
-        return 'success'
-      } else if (stock >= 10) {
-        return 'warning'
-      }
-      return 'error'
-    }
-
-    const debouncedSearch = debounce(async (value: string) => {
-      setLoading(true)
-      try {
-        if (value) {
-          let result = await api.getProductByKeyword(value)
-          stocks.value = result.data
-          autocompleteOptions.value = result.data.map((product: any) => ({
-            value: product.name
-          }))
-        } else {
-          loadProducts()
-        }
-      } finally {
-        setLoading(false)
-      }
-    }, 1000) // Adjust the debounce delay as needed
-
-    const onSelect = async (value: any) => {
-      setLoading(true)
-      try {
-        if (value) {
-          let result = await api.getProductByKeyword(value)
-          stocks.value = result.data
-        } else {
-          loadProducts()
-        }
-      } finally {
-        setLoading(false)
-      }
-    }
-
-    const loadProducts = async () => {
-      setLoading(true)
-      let res = await api.getProducts()
-      stocks.value = res.data // Assign value to stocks using .value property
-      setLoading(false)
-    }
-
-    const getProductImage = (image: any) => {
-      return filters.fullImageUrl(image)
-    }
-    const onConfirmDelete = async (id: any) => {
-      await api.deleteProduct(id)
-      loadProducts()
-    }
-
-    onMounted(() => {
-      loadProducts()
-    })
-
-    watch(stocks, () => {
-      // Update autocomplete options when stocks change
-      autocompleteOptions.value = stocks.value.map((product: Product) => ({
-        value: product.name
-      })) as any
+    onMounted(async () => {
+      stockStore.stocks = await stockStore.loadProducts()
     })
 
     return {
-      stocks,
-      columns,
-      isLoading,
-      stockCardList,
-      onConfirmDelete,
-      getProductImage,
       filters,
-      getColorTagByStock,
-      routeToEdit,
-      searchValue,
-      autocompleteOptions,
-      debouncedSearch,
-      onSelect
+      stockStore,
+      columns,
+      stockCardList,
+      routeToEdit
     }
   }
 })
