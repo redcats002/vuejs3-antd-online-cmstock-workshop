@@ -120,7 +120,7 @@ export default defineComponent({
     const onSubmit = () => {
       validate()
         .then(async (res) => {
-          let formData = new FormData()
+          const formData = new FormData()
           const { name, price, stock, image, id } = formState
           formData.append('id', id)
           formData.append('name', name)
@@ -157,7 +157,7 @@ export default defineComponent({
     }
 
     onMounted(async () => {
-      let result = await api.getProductById(route.params.id)
+      const result = await api.getProductById(route.params.id)
       formState.id = result.data.id
       formState.name = result.data.name
       formState.price = result.data.price

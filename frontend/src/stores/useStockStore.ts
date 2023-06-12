@@ -26,7 +26,7 @@ export const useStockStore = defineStore('stock', () => {
   const loadProducts = async () => {
     setLoading(FetchingStatus.fetching)
     try {
-      let res = await api.getProducts()
+      const res = await api.getProducts()
       return res.data // Assign value to stocks using .value property
     } catch (error) {
       return []
@@ -51,7 +51,7 @@ export const useStockStore = defineStore('stock', () => {
     setLoading(FetchingStatus.fetching)
     try {
       if (value) {
-        let result = await api.getProductByKeyword(value)
+        const result = await api.getProductByKeyword(value)
         stocks.value = result.data
         autocompleteOptions.value = result.data.map((product: any) => ({
           value: product.name
@@ -68,7 +68,7 @@ export const useStockStore = defineStore('stock', () => {
     setLoading(FetchingStatus.fetching)
     try {
       if (value) {
-        let result = await api.getProductByKeyword(value)
+        const result = await api.getProductByKeyword(value)
         stocks.value = result.data
       } else {
         stocks.value = await loadProducts()

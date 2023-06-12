@@ -13,7 +13,7 @@
     <a-col :span="24" :md="8" class="tw-h-full">
       <a-row align="space-between" justify="center" class="tw-h-full" :gutter="[20, 20]">
         <a-col :span="24">
-          <PieChart :data="pieData" class=" tw-h-full md:tw-max-h-[45vh] tw-overflow-auto"
+          <PieChart :data="pieData" class="tw-h-full md:tw-max-h-[45vh] tw-overflow-auto"
         /></a-col>
         <a-col :span="24">
           <BarChart :data="barData" class="tw-h-full md:tw-max-h-[45vh] tw-overflow-auto"
@@ -34,11 +34,11 @@ export default defineComponent({
     const barData = ref([30, 40, 60, 70, 5, 10, 10])
     const pieData = ref([30, 40, 60])
     const shuffleData = () => {
-      let array = ref([lineData, barData, pieData])
-      for (let [index, dataset] of array.value.entries()) {
-        let tempDataset = dataset.value
+      const array = ref([lineData, barData, pieData])
+      for (const [index, dataset] of array.value.entries()) {
+        const tempDataset = dataset.value
 
-        for (let i = tempDataset.length - 1; i > 0; i--) {
+        for (const i = tempDataset.length - 1; i > 0; i--) {
           const j = Math.floor(Math.random() * (i + 1))
           ;[tempDataset[i], tempDataset[j]] = [tempDataset[j], tempDataset[i]]
         }
