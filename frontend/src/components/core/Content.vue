@@ -1,11 +1,9 @@
 <template>
-  <a-layout-content
-    :style="{ margin: '24px 16px', padding: '24px', background: '#fff', minHeight: '280px' }"
-  >
+  <a-layout-content class="tw-p-10 tw-flex tw-items-start tw-justify-center">
     <a-row
       align="center"
       justify="center"
-      class="tw-h-full tw-w-full tw-items-center"
+      class="tw-h-full tw-w-full"
       v-if="['/login', '/register'].includes($route.path)"
     >
       <RouterView></RouterView>
