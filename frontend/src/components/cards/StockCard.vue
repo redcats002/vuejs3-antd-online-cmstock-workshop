@@ -3,9 +3,7 @@
     <a-row align="center" justify="center" class="tw-h-full">
       <a-col :span="16">
         <a-card-meta :title="props.title?.toUpperCase()">
-          <template #description>{{
-            props.amount?.toLocaleString('en-US', { style: 'currency', currency: 'USD' })
-          }}</template>
+          <template #description>{{ filters.currency(props.amount) }}</template>
         </a-card-meta>
       </a-col>
       <a-col :span="8">
@@ -28,7 +26,7 @@ import {
   RollbackOutlined,
   GiftOutlined
 } from '@ant-design/icons-vue'
-
+import filters from '@/services/filters'
 const props = defineProps({
   title: String,
   amount: Number,
