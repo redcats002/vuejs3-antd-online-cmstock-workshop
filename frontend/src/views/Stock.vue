@@ -33,15 +33,13 @@
           </a-button>
         </a-col>
       </a-row>
-      <a-skeleton active avatar v-if="stockStore.isLoading()"> </a-skeleton>
-      <a-card
-        v-else
-        class="tw-rounded-md tw-drop-shadow-sm hover:tw-drop-shadow-md tw-transition-all"
-      >
+      <!-- <a-skeleton active avatar v-if="stockStore.isLoading()"> </a-skeleton> -->
+      <a-card class="tw-rounded-md tw-drop-shadow-sm hover:tw-drop-shadow-md tw-transition-all">
         <a-table
           :columns="columns"
           :data-source="stockStore.stocks"
           :pagination="{ position: ['topRight'] }"
+          :loading="stockStore.isLoading()"
         >
           <template #headerCell="{ column }">
             <template v-if="column.key === 'name'">
