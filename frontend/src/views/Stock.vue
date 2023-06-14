@@ -13,9 +13,8 @@
             :options="stockStore.autocompleteOptions"
             @search="stockStore.createDebounceSearches"
             @select="stockStore.onSelect"
-            :default-active-first-option="false"
-            :filter-option="false"
-            :loading="stockStore.isLoading"
+            :defaultActiveFirstOption="false"
+            :filterOption="false"
           />
         </a-col>
         <a-col>
@@ -25,16 +24,16 @@
             @click="$router.push('/stock-create')"
           >
             <a-row justify="center" class="tw-items-center">
-              <PlusCircleFilled class="tw-pr-2 tw-hidden lg:tw-block" /><span class="tw-pr-1"
-                >NEW</span
-              >
+              <PlusCircleFilled class="tw-pr-2 tw-hidden lg:tw-block" />
+              <span class="tw-pr-1">NEW </span>
               <span class="tw-hidden lg:tw-block">PRODUCT</span>
             </a-row>
           </a-button>
         </a-col>
       </a-row>
-      <!-- <a-skeleton active avatar v-if="stockStore.isLoading()"> </a-skeleton> -->
-      <a-card class="tw-rounded-md tw-drop-shadow-sm hover:tw-drop-shadow-md tw-transition-all">
+      <a-card
+        class="tw-rounded-md tw-drop-shadow-sm hover:tw-drop-shadow-md tw-transition-all tw-relative"
+      >
         <a-table
           :columns="columns"
           :data-source="stockStore.stocks"
@@ -42,20 +41,20 @@
           :loading="stockStore.isLoading()"
         >
           <template #headerCell="{ column }">
-            <template v-if="column.key === 'name'">
+            <template v-if="column.dataIndex === 'name'">
               <span class="tw-font-medium"> Name </span>
             </template>
           </template>
 
           <template #bodyCell="{ column, record }">
-            <template v-if="column.key === 'name'">
+            <template v-if="column.dataIndex === 'name'">
               <div class="tw-block tw-truncate tw-overflow-ellipsis">
                 <a @click="routeToEdit(record.id)">
                   {{ record.name }}
                 </a>
               </div>
             </template>
-            <template v-else-if="column.key === 'image'">
+            <template v-else-if="column.dataIndex === 'image'">
               <img
                 @click="routeToEdit(record.id)"
                 :src="stockStore.getProductImage(record.image)"
@@ -66,21 +65,21 @@
                 height="50"
               />
             </template>
-            <template v-else-if="column.key === 'price'">
+            <template v-else-if="column.dataIndex === 'price'">
               <span>{{ filters.currency(record.price) }}</span>
             </template>
-            <template v-else-if="column.key === 'stock'">
+            <template v-else-if="column.dataIndex === 'stock'">
               <a-tag :color="stockStore.getColorTagByStock(record.stock)"
                 >{{ filters.thousand(record.stock) }} pcs</a-tag
               >
             </template>
-            <template v-else-if="column.key === 'createdAt'">
+            <template v-else-if="column.dataIndex === 'createdAt'">
               <span class="tw-text-gray-600">{{ filters.formatTime(record.createdAt) }}</span>
             </template>
-            <template v-else-if="column.key === 'updatedAt'">
+            <template v-else-if="column.dataIndex === 'updatedAt'">
               <span class="tw-text-gray-600">{{ filters.formatTime(record.updatedAt) }}</span>
             </template>
-            <template v-else-if="column.key === 'action'">
+            <template v-else-if="column.dataIndex === 'action'">
               <a-row align="center">
                 <a-button
                   class="tw-bg-[#ffd155ff] tw-border-[#ffd155ff] tw-text-white"
@@ -142,38 +141,32 @@ export default defineComponent({
     const columns = [
       {
         title: 'Image',
-        dataIndex: 'image',
-        key: 'image'
+        dataIndex: 'image'
       },
       {
         name: 'Name',
         dataIndex: 'name',
-        key: 'name',
         width: '30%'
       },
       {
         title: 'Price',
-        dataIndex: 'price',
-        key: 'price'
+        dataIndex: 'price'
       },
       {
         title: 'Stock',
-        key: 'stock',
         dataIndex: 'stock'
       },
       {
         title: 'Created At',
-        key: 'createdAt',
         dataIndex: 'createdAt'
       },
       {
         title: 'Updated At',
-        key: 'updatedAt',
         dataIndex: 'updatedAt'
       },
       {
         title: 'Action',
-        key: 'action'
+        dataIndex: 'action'
       }
     ]
 

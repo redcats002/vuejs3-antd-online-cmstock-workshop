@@ -1,5 +1,5 @@
 <template>
-  <a-layout-content class="tw-p-10 tw-flex tw-items-start tw-justify-center">
+  <a-layout-content class="tw-p-5">
     <a-row
       align="center"
       justify="center"
