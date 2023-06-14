@@ -13,6 +13,7 @@
 => setTimeout(() => {
     setLoading(FetchingStatus.success)
   }, 1000)
+=> remove a-skeleton and add loading attribute to a-table
 =========================
 - Q4.span -> flex
 => Fixed by flex-rows, flex-1
