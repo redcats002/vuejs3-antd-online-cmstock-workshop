@@ -116,6 +116,7 @@ import { defineComponent, onMounted, reactive, ref, watch } from 'vue'
 import filters from '@/services/filters'
 import { useRouter } from 'vue-router'
 import { useStockStore } from '@/stores/useStockStore'
+import type { StockCardInterface } from '@/models/product.model'
 
 export default defineComponent({
   components: {

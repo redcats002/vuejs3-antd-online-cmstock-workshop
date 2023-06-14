@@ -1,11 +1,11 @@
 import { FetchingStatus } from '@/models/fetchingStatus'
-import type { Product, StockCardInterface } from '@/models/product.model'
+import type { Product, } from '@/models/product.model'
 import api from '@/services/api'
 import filters from '@/services/filters'
 import { debounce } from 'lodash'
 import { defineStore } from 'pinia'
-import { reactive, ref, watch } from 'vue'
-import { useRouter } from 'vue-router'
+import { ref, watch } from 'vue'
+
 
 
 export const useStockStore = defineStore('stock', () => {

@@ -5,7 +5,6 @@ import {
   NOT_CONNECT_NETWORK,
   NETWORK_CONNECTION_MESSAGE
 } from '@/services/constants'
-import router from '@/router'
 import join from 'url-join'
 
 const isAbsoluteURLRegex = /^(?:\w+:)\/\//
@@ -22,7 +21,7 @@ axios.interceptors.request.use(async (config) => {
   }
   config.timeout = 10000 // 10 Second
   return config
-})
+})  
 
 axios.interceptors.response.use(
   (response) => {
