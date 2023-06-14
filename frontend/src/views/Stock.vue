@@ -5,20 +5,20 @@
       </StockCard>
     </a-col>
     <a-col col :span="24" class="tw-mt-4">
-      <a-row justify="end" class="tw-mb-4" :gutter="[10, 10]">
-        <a-col :span="20">
+      <a-row class="tw-mb-4 tw-flex tw-flex-row">
+        <a-col class="tw-flex-1 tw-mr-3">
           <a-auto-complete
             class="tw-w-full tw-drop-shadow-sm hover:tw-drop-shadow-md tw-transition-all"
             placeholder="Input search text"
             :options="stockStore.autocompleteOptions"
-            @search="stockStore.debouncedSearch"
+            @search="stockStore.createDebounceSearches"
             @select="stockStore.onSelect"
             :default-active-first-option="false"
             :filter-option="false"
             :loading="stockStore.isLoading"
           />
         </a-col>
-        <a-col :span="4">
+        <a-col>
           <a-button
             class="tw-w-full tw-drop-shadow-sm hover:tw-drop-shadow-md tw-transition-all"
             type="primary"
@@ -38,7 +38,11 @@
         v-else
         class="tw-rounded-md tw-drop-shadow-sm hover:tw-drop-shadow-md tw-transition-all"
       >
-        <a-table :columns="columns" :data-source="stockStore.stocks" :scroll="{ y: 700, x: 600 }">
+        <a-table
+          :columns="columns"
+          :data-source="stockStore.stocks"
+          :pagination="{ position: ['topRight'] }"
+        >
           <template #headerCell="{ column }">
             <template v-if="column.key === 'name'">
               <span class="tw-font-medium"> Name </span>
@@ -130,6 +134,7 @@ export default defineComponent({
   setup() {
     const router = useRouter()
     const stockStore = useStockStore()
+
     const stockCardList = reactive<StockCardInterface[]>([
       { title: 'Total', amount: 1800, icon: 'ShoppingCartOutlined', color: '#039C52' },
       { title: 'Sold-out', amount: 12, icon: 'ExperimentOutlined', color: '#F18F15' },

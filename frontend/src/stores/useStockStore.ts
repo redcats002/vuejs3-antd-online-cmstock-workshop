@@ -47,6 +47,10 @@ export const useStockStore = defineStore('stock', () => {
     return fetchingStatus.value == FetchingStatus.fetching
   }
 
+  const createDebounceSearches = async (value: string) => {
+    await debouncedSearch(value)
+  }
+
   const debouncedSearch = debounce(async (value: string) => {
     setLoading(FetchingStatus.fetching)
     try {
@@ -60,7 +64,9 @@ export const useStockStore = defineStore('stock', () => {
         stocks.value = await loadProducts()
       }
     } finally {
-      setLoading(FetchingStatus.success)
+      setTimeout(() => {
+        setLoading(FetchingStatus.success)
+      }, 1000)
     }
   }, 500) // Adjust the debounce delay as needed
 
@@ -74,7 +80,10 @@ export const useStockStore = defineStore('stock', () => {
         stocks.value = await loadProducts()
       }
     } finally {
-      setLoading(FetchingStatus.success)
+      setTimeout(() => {
+        setLoading(FetchingStatus.success)
+      }, 1000)
+     
     }
   }
 
@@ -97,6 +106,6 @@ export const useStockStore = defineStore('stock', () => {
   return {
     loadProducts, fetchingStatus, getColorTagByStock,
     setLoading, getProductImage, isLoading, stocks,
-    onSelect, debouncedSearch, onConfirmDelete, autocompleteOptions
+    onSelect, createDebounceSearches, onConfirmDelete, autocompleteOptions
   }
 })
