@@ -21,7 +21,7 @@ axios.interceptors.request.use(async (config) => {
   }
   config.timeout = 10000 // 10 Second
   return config
-})
+})  
 
 axios.interceptors.response.use(
   (response) => {

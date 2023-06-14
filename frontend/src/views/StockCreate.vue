@@ -124,7 +124,7 @@ export default defineComponent({
     }
 
     const validatePrice = (rule: Rule, value: string) => {
-      if (formState.price < 10) {
+      if (formState.price < 100) {
         return Promise.reject('price must be a least at 100')
       }
       return Promise.resolve()
@@ -132,7 +132,7 @@ export default defineComponent({
 
     const validateStock = (rule: Rule, value: string) => {
       if (formState.stock < 10) {
-        return Promise.reject('stock must be a least at 100')
+        return Promise.reject('stock must be a least at 10')
       }
       return Promise.resolve()
     }
