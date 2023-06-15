@@ -1,5 +1,5 @@
 <template>
-  <a-layout-content class="tw-p-5">
+  <a-layout-content class="tw-p-5 tw-w-full tw-h-full">
     <a-row
       align="center"
       justify="center"

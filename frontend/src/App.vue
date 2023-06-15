@@ -1,7 +1,8 @@
 <template>
-  <a-layout class="tw-min-h-screen tw-w-full">
+  <a-layout class="tw-min-h-screen tw-w-full tw-relative" hasSider>
     <Sidebar v-model:collapsed="collapsed" v-if="!isAuthLayout()"></Sidebar>
-    <a-layout class="tw-relative tw-w-full tw-h-full">
+
+    <a-layout class="tw-relative tw-w-full tw-h-full l tw-overflow-auto">
       <Header v-model:collapsed="collapsed" v-if="!isAuthLayout()"></Header>
       <Content></Content>
     </a-layout>
@@ -24,7 +25,6 @@ export default defineComponent({
   setup() {
     const route = useRoute()
     const authStore = useAuthStore()
-    const selectedKeys = ref<string[]>(['1'])
     const collapsed = ref<boolean>(false)
     onMounted(() => {
       authStore.restoreSession()
@@ -36,32 +36,10 @@ export default defineComponent({
 
     return {
       isAuthLayout,
-      selectedKeys,
+
       collapsed
     }
   }
 })
 </script>
-<style>
-#components-layout-demo-custom-trigger .trigger {
-  font-size: 18px;
-  line-height: 64px;
-  padding: 0 24px;
-  cursor: pointer;
-  transition: color 0.3s;
-}
-
-#components-layout-demo-custom-trigger .trigger:hover {
-  color: #1890ff;
-}
-
-#components-layout-demo-custom-trigger .logo {
-  height: 32px;
-  background: rgba(255, 255, 255, 0.3);
-  margin: 16px;
-}
-
-.site-layout .site-layout-background {
-  background: #fff;
-}
-</style>
+<style></style>

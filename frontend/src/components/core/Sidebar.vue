@@ -1,7 +1,8 @@
 <template>
   <a-layout-sider
+    hasSider
     v-model:collapsed="props.collapsed"
-    class="tw-bg-[url('@/assets/bg-menu-2.png')] tw-bg-no-repeat tw-bg-[#83fface5] tw-bg-contain tw-bg-bottom"
+    class="tw-bg-[url('@/assets/bg-menu-2.png')] tw-bg-no-repeat tw-bg-[#83fface5] tw-bg-contain tw-bg-bottom tw-relative"
     breakpoint="xl"
     @collapse="onCollapse"
   >
