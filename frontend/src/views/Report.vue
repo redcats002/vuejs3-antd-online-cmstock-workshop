@@ -38,7 +38,7 @@ export default defineComponent({
       for (const [index, dataset] of array.value.entries()) {
         const tempDataset = dataset.value
 
-        for (const i = tempDataset.length - 1; i > 0; i--) {
+        for (let i = tempDataset.length - 1; i > 0; i--) {
           const j = Math.floor(Math.random() * (i + 1))
           ;[tempDataset[i], tempDataset[j]] = [tempDataset[j], tempDataset[i]]
         }

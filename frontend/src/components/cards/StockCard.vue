@@ -9,10 +9,7 @@
       <a-col :span="8">
         <a-tag :color="props.color" class="tw-text-4xl tw-p-2 tw-py-4 tw-w-full">
           <a-row justify="center">
-            <ShoppingCartOutlined v-if="props.icon == 'ShoppingCartOutlined'" />
-            <ExperimentOutlined v-else-if="props.icon == 'ExperimentOutlined'" />
-            <RollbackOutlined v-else-if="props.icon == 'RollbackOutlined'" />
-            <GiftOutlined v-else />
+            <Icon :component="props.icon"> </Icon>
           </a-row>
         </a-tag>
       </a-col>
@@ -20,17 +17,16 @@
   </a-card>
 </template>
 <script lang="ts" setup>
-import {
-  ShoppingCartOutlined,
-  ExperimentOutlined,
-  RollbackOutlined,
-  GiftOutlined
-} from '@ant-design/icons-vue'
 import filters from '@/services/filters'
+import Icon from '@ant-design/icons-vue'
+import { type Component, type FunctionalComponent, type PropType } from 'vue'
+import type { IconType } from '@ant-design/icons-vue/lib/components/Icon'
+import { any } from 'vue-types'
+
 const props = defineProps({
   title: String,
   amount: Number,
-  icon: String,
+  icon: Function as PropType<FunctionalComponent<IconType>>,
   color: String
 })
 </script>

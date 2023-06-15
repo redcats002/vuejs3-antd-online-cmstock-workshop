@@ -1,5 +1,5 @@
 <template>
-  <a-row justify="space-around" align="center" :gutter="[20]">
+  <a-row justify="space-between" align="center" :gutter="[10, 0]">
     <a-col :span="12" :lg="6" v-for="(item, i) in stockCardList" :key="i" class="tw-mb-2">
       <StockCard :title="item.title" :amount="item.amount" :color="item.color" :icon="item.icon">
       </StockCard>
@@ -39,6 +39,7 @@
           :data-source="stockStore.stocks"
           :pagination="{ position: ['topRight'] }"
           :loading="stockStore.isLoading()"
+          :scroll="{ x: 200 }"
         >
           <template #headerCell="{ column }">
             <template v-if="column.dataIndex === 'name'">
@@ -111,7 +112,10 @@ import {
   EditFilled,
   DeleteFilled,
   QuestionCircleOutlined,
-  DeleteOutlined
+  ShoppingCartOutlined,
+  ExperimentOutlined,
+  RollbackOutlined,
+  GiftOutlined
 } from '@ant-design/icons-vue'
 import { defineComponent, onMounted, reactive, ref, watch } from 'vue'
 import filters from '@/services/filters'
@@ -125,20 +129,19 @@ export default defineComponent({
     EditFilled,
     DeleteFilled,
     StockCard,
-    QuestionCircleOutlined,
-    DeleteOutlined
+    QuestionCircleOutlined
   },
+
   setup() {
     const router = useRouter()
     const stockStore = useStockStore()
-
-    const stockCardList = reactive<StockCardInterface[]>([
-      { title: 'Total', amount: 1800, icon: 'ShoppingCartOutlined', color: '#039C52' },
-      { title: 'Sold-out', amount: 12, icon: 'ExperimentOutlined', color: '#F18F15' },
-      { title: 'Return', amount: 2, icon: 'RollbackOutlined', color: '#D94231' },
-      { title: 'Discount', amount: 101, icon: 'GiftOutlined', color: '#03B8EA' }
+    const stockCardList = ref<StockCardInterface[]>([
+      { title: 'Total', amount: 1800, icon: ShoppingCartOutlined, color: '#039C52' },
+      { title: 'Sold-out', amount: 12, icon: ExperimentOutlined, color: '#F18F15' },
+      { title: 'Return', amount: 2, icon: RollbackOutlined, color: '#D94231' },
+      { title: 'Discount', amount: 101, icon: GiftOutlined, color: '#03B8EA' }
     ])
-    const columns = [
+    const columns = ref([
       {
         title: 'Image',
         dataIndex: 'image'
@@ -168,16 +171,13 @@ export default defineComponent({
         title: 'Action',
         dataIndex: 'action'
       }
-    ]
-
+    ])
     const routeToEdit = (id: string) => {
       router.push(`/stock-edit/${id}`)
     }
-
     onMounted(async () => {
       stockStore.stocks = await stockStore.loadProducts()
     })
-
     return {
       filters,
       stockStore,
@@ -188,3 +188,4 @@ export default defineComponent({
   }
 })
 </script>
+<style lang="css" scoped></style>
