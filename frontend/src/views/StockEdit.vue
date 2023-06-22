@@ -53,8 +53,11 @@
 
         <a-form-item :wrapper-col="{ span: 24 }">
           <a-row align="center" justify="end" :gutter="[10, 10]">
-            <a-button type="primary" @click.prevent="onSubmit">Confirm</a-button>
-            <a-button style="margin-left: 10px" @click="$router.push('/stock')">Cancel</a-button>
+            <a-button class="tw-mr-2" type="primary" @click.prevent="onSubmit">Confirm</a-button>
+            <a-button class="tw-mr-2" type="primary" ghost="" @click.prevent="resetFields"
+              >Reset</a-button
+            >
+            <a-button @click="$router.push('/stock')">Cancel</a-button>
           </a-row>
         </a-form-item>
       </a-form>
@@ -68,6 +71,15 @@ import api from '@/services/api'
 import filters from '@/services/filters'
 import { EditFilled } from '@ant-design/icons-vue'
 import { useRoute, useRouter } from 'vue-router'
+
+interface stockFormInterface {
+  id: string
+  name: string
+  price: number
+  stock: number
+  image: string | null
+  imageURL: string
+}
 
 const useForm = Form.useForm
 export default defineComponent({
@@ -88,7 +100,7 @@ export default defineComponent({
       imageURL: null
     })
 
-    const { resetFields, validate, validateInfos } = useForm(
+    const { resetFields, validate, validateInfos, initialModel } = useForm(
       formState,
       reactive({
         name: [
@@ -156,14 +168,29 @@ export default defineComponent({
       }
     }
 
+    // ADD initModel (initialModel is attribute from useForm)
+    const setInitModel = (form: stockFormInterface) => {
+      initialModel.id = form.id
+      initialModel.name = form.name
+      initialModel.price = form.price
+      initialModel.stock = form.stock
+      initialModel.image = form.image
+      initialModel.imageURL = formState.imageURL
+    }
+
+    const setInitFormState = (form: stockFormInterface) => {
+      formState.id = form.id
+      formState.name = form.name
+      formState.price = form.price
+      formState.stock = form.stock
+      formState.image = form.image as any
+      formState.imageURL = getProductImage(form.image) as any
+    }
+
     onMounted(async () => {
       const result = await api.getProductById(route.params.id)
-      formState.id = result.data.id
-      formState.name = result.data.name
-      formState.price = result.data.price
-      formState.stock = result.data.stock
-      formState.image = result.data.image
-      formState.imageURL = getProductImage(result.data.image) as any
+      setInitFormState(result.data)
+      setInitModel(result.data)
     })
 
     return {
@@ -176,7 +203,8 @@ export default defineComponent({
       getProductImage,
       handleCancel,
       previewTitle,
-      previewVisible
+      previewVisible,
+      resetFields
     }
   }
 })
