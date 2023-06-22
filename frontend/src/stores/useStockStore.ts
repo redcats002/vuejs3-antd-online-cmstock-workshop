@@ -1,17 +1,14 @@
 import { FetchingStatus } from '@/models/fetchingStatus'
-import type { Product, } from '@/models/product.model'
+import type { Product } from '@/models/product.model'
 import api from '@/services/api'
 import filters from '@/services/filters'
 import { debounce } from 'lodash'
 import { defineStore } from 'pinia'
 import { ref, watch } from 'vue'
 
-
-
 export const useStockStore = defineStore('stock', () => {
   const autocompleteOptions = ref([])
   const stocks = ref<Product[]>([])
-
   const fetchingStatus = ref<FetchingStatus>(FetchingStatus.init)
 
   const getColorTagByStock = (stock: number) => {
@@ -83,7 +80,6 @@ export const useStockStore = defineStore('stock', () => {
       setTimeout(() => {
         setLoading(FetchingStatus.success)
       }, 1000)
-     
     }
   }
 
@@ -104,8 +100,16 @@ export const useStockStore = defineStore('stock', () => {
   )
 
   return {
-    loadProducts, fetchingStatus, getColorTagByStock,
-    setLoading, getProductImage, isLoading, stocks,
-    onSelect, createDebounceSearches, onConfirmDelete, autocompleteOptions
+    loadProducts,
+    fetchingStatus,
+    getColorTagByStock,
+    setLoading,
+    getProductImage,
+    isLoading,
+    stocks,
+    onSelect,
+    createDebounceSearches,
+    onConfirmDelete,
+    autocompleteOptions
   }
 })
