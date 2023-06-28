@@ -15,7 +15,7 @@
 <script lang="ts" setup>
 import { Chart, registerables } from 'chart.js'
 import { BarChart, useBarChart } from 'vue-chart-3'
-import { ref, computed, defineComponent } from 'vue'
+import { ref, computed } from 'vue'
 import filters from '@/services/filters'
 
 Chart.register(...registerables)
@@ -47,7 +47,7 @@ const chartData = computed(() => ({
   ]
 }))
 
-const { barChartProps, barChartRef } = useBarChart({
+const { barChartProps } = useBarChart({
   chartData
 })
 </script>

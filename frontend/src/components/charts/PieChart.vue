@@ -5,15 +5,20 @@
         <template #title>
           <span class="tw-font-bold tw-text-[1.5rem] tw-block">Earning Report</span>
         </template>
-        <DoughnutChart ref="doughnutRef" :chartData="testData" :options="options" class="tw-h-full md:tw-max-h-[300px]" />
+        <DoughnutChart
+          ref="doughnutRef"
+          :chartData="testData"
+          :options="options"
+          class="tw-h-full md:tw-max-h-[300px]"
+        />
       </a-card>
     </a-col>
   </a-row>
 </template>
 
 <script lang="ts" setup>
-import { computed, defineComponent, ref,  } from 'vue'
-import { DoughnutChart } from 'vue-chart-3'
+import { computed, defineComponent, ref } from 'vue'
+import { DoughnutChart, useDoughnutChart } from 'vue-chart-3'
 import { Chart, registerables } from 'chart.js'
 import filters from '@/services/filters'
 
@@ -40,12 +45,14 @@ const options = ref({
 })
 
 const testData = computed(() => ({
-  labels: ['Commissions','Donation','Sales'],
+  labels: ['Commissions', 'Donation', 'Sales'],
   datasets: [
     {
       data: props.data as any,
-      backgroundColor: [ '#A9E4EF', '#81F495', '#96F550']
+      backgroundColor: ['#A9E4EF', '#81F495', '#96F550']
     }
   ]
 }))
+
+const {} = useDoughnutChart(testData)
 </script>
